@@ -28,7 +28,9 @@ function CreateStudent() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const data = {...initial , id : studentList.length + 1}
+        const lastId = studentList.length > 0 ? studentList[studentList.length - 1].id : 0;
+
+        const data = {...initial , id : lastId + 1}
         dispatch(CreateStuAction(data));
         setInitial({
             fName: '',

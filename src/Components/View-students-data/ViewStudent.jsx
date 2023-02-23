@@ -1,12 +1,14 @@
 import React from 'react'
 import { Container, Table, Button } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './ViewStudent.css';
 import { PencilSquare, Trash3Fill } from 'react-bootstrap-icons';
+import { DeleteStuAction } from '../../Services/Actions/CreateStu.action';
 
 function ViewStudent() {
 
     const { studentList } = useSelector((state) => state.CreateStuReducer);
+    const dispatch = useDispatch();
 
     return (
         <Container>
@@ -54,7 +56,7 @@ function ViewStudent() {
                                                     <PencilSquare />
                                                     <span className='ps-2'>Edit</span>
                                                 </Button>
-                                                <Button variant="danger" className='rounded-0 mx-1 px-4'>
+                                                <Button variant="danger" onClick={() => dispatch(DeleteStuAction(stu.id))} className='rounded-0 mx-1 px-4'>
                                                     <Trash3Fill />
                                                     <span className='ps-2'>Delete</span>
                                                 </Button>

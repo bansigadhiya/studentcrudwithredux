@@ -1,4 +1,4 @@
-import { CREATE_STU } from "../Constants/Action.type";
+import { CREATE_STU, DELETE_STU } from "../Constants/Action.type";
 
 const initialState = {
     studentList : []
@@ -16,7 +16,12 @@ const CreateStuReducer = (state = initialState,action) => {
                     action.payload
                 ]
             }
-        
+        case DELETE_STU :
+            const dStu = state.studentList.filter((stu) => stu.id !== action.payload);
+            return{
+                ...state,
+                studentList : dStu
+            }
         break;
         default : 
             return state;
