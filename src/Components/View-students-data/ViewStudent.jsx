@@ -3,12 +3,17 @@ import { Container, Table, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import './ViewStudent.css';
 import { PencilSquare, Trash3Fill } from 'react-bootstrap-icons';
-import { DeleteStuAction } from '../../Services/Actions/CreateStu.action';
+import { DeleteStuAction, GetInfoAction } from '../../Services/Actions/CreateStu.action';
 
-function ViewStudent() {
+function ViewStudent({handleEdit}) {
 
     const { studentList } = useSelector((state) => state.CreateStuReducer);
     const dispatch = useDispatch();
+
+    const handleUpdate = (id) => {
+        handleEdit();
+        dispatch(GetInfoAction(id))
+    }
 
     return (
         <Container>
@@ -26,10 +31,10 @@ function ViewStudent() {
                 </thead>
                 <tbody>
                     {
-                        studentList.map((stu) => {
+                        studentList.map((stu , index) => {
                             return (
                                 <>
-                                    <tr>
+                                    <tr key={index}>
                                         <td rowSpan="2">
                                             {stu.id}
                                         </td>
@@ -52,7 +57,7 @@ function ViewStudent() {
                                         </td>
                                         <td rowSpan="2">
                                             <div className='d-flex action'>
-                                                <Button variant="info" className='rounded-0 text-white mx-1 px-4'>
+                                                <Button variant="info" className='rounded-0 text-white mx-1 px-4' onClick={() => {handleUpdate(stu.id)}}>
                                                     <PencilSquare />
                                                     <span className='ps-2'>Edit</span>
                                                 </Button>
@@ -63,7 +68,7 @@ function ViewStudent() {
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr>
+                                    <tr key={index}>
                                         <td>
                                             {stu.pContact}
                                         </td>

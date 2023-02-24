@@ -1,12 +1,12 @@
-import { CREATE_STU, DELETE_STU } from "../Constants/Action.type";
+import { CREATE_STU, DELETE_STU, GET_INFO, UPDATE_STU } from "../Constants/Action.type";
 
 const initialState = {
-    studentList : []
+    studentList : [],
+    studentInfo : {}
 }
 
 const CreateStuReducer = (state = initialState,action) => {
 
-    console.log("data",action.payload);
     switch(action.type){
         case CREATE_STU : 
             return{
@@ -16,11 +16,33 @@ const CreateStuReducer = (state = initialState,action) => {
                     action.payload
                 ]
             }
+        break;
         case DELETE_STU :
             const dStu = state.studentList.filter((stu) => stu.id !== action.payload);
             return{
                 ...state,
                 studentList : dStu
+            }
+        break;
+        case GET_INFO :
+            const getInfo = state.studentList.filter((stu) => stu.id == action.payload);
+            return {
+                ...state,
+                studentInfo : getInfo[0]
+            }
+        break;
+        case UPDATE_STU : 
+            const updateData = state.studentList.map((stu) => {
+                console.log(stu,"stu");
+                if(stu.id == action.payload.id){
+                    return action.payload
+                }
+                return stu;
+            })
+
+            return{
+                ...state,
+                studentList : updateData
             }
         break;
         default : 
