@@ -1,4 +1,4 @@
-import { CREATE_STU, DELETE_STU, GET_INFO, UPDATE_STU } from "../Constants/Action.type"
+import { CREATE_STU, DELETE_STU, GET_INFO, LOADING, UPDATE_STU } from "../Constants/Action.type"
 
 export const CreateStuAction = (data) => {
 
@@ -7,6 +7,22 @@ export const CreateStuAction = (data) => {
         payload : data
     }
 }
+
+export const loading = () => {
+
+    return{
+        type : LOADING
+    }
+}
+
+export const CreateStuAsync = (data) => {
+    return dispatch => {
+      dispatch(loading())
+      setTimeout(() => {
+        dispatch(CreateStuAction(data));
+      }, 3000);
+    };
+  }
 
 export const DeleteStuAction = (id) => {
 

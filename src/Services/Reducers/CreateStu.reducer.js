@@ -1,54 +1,62 @@
-import { CREATE_STU, DELETE_STU, GET_INFO, UPDATE_STU } from "../Constants/Action.type";
+import { CREATE_STU, DELETE_STU, GET_INFO, LOADING, UPDATE_STU } from "../Constants/Action.type";
 
 const initialState = {
-    studentList : [],
-    studentInfo : {}
+    studentList: [],
+    studentInfo: {},
+    isLoading: true
 }
 
-const CreateStuReducer = (state = initialState,action) => {
+const CreateStuReducer = (state = initialState, action) => {
 
-    switch(action.type){
-        case CREATE_STU : 
-            return{
+    switch (action.type) {
+        case CREATE_STU:
+            return {
                 ...state,
-                studentList : [
+                studentList: [
                     ...state.studentList,
                     action.payload
-                ]
+                ],
+                isLoading: false
             }
-        break;
-        case DELETE_STU :
-            const dStu = state.studentList.filter((stu) => stu.id !== action.payload);
-            return{
+            break;
+        case LOADING:
+            return {
                 ...state,
-                studentList : dStu
+                isLoading: true
             }
-        break;
-        case GET_INFO :
+            break;
+        case DELETE_STU:
+            const dStu = state.studentList.filter((stu) => stu.id !== action.payload);
+            return {
+                ...state,
+                studentList: dStu
+            }
+            break;
+        case GET_INFO:
             const getInfo = state.studentList.filter((stu) => stu.id == action.payload);
             return {
                 ...state,
-                studentInfo : getInfo[0]
+                studentInfo: getInfo[0]
             }
-        break;
-        case UPDATE_STU : 
+            break;
+        case UPDATE_STU:
             const updateData = state.studentList.map((stu) => {
-                console.log(stu,"stu");
-                if(stu.id == action.payload.id){
+                console.log(stu, "stu");
+                if (stu.id == action.payload.id) {
                     return action.payload
                 }
                 return stu;
             })
 
-            return{
+            return {
                 ...state,
-                studentList : updateData
+                studentList: updateData
             }
-        break;
-        default : 
+            break;
+        default:
             return state;
     }
-    
+
 }
 
 export default CreateStuReducer;

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Container, Row, Button, Form } from 'react-bootstrap';
 import './CreateStudent.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { CreateStuAction } from '../../Services/Actions/CreateStu.action';
+import { CreateStuAction , CreateStuAsync } from '../../Services/Actions/CreateStu.action';
 
 function CreateStudent() {
     const [initial, setInitial] = useState({
@@ -16,6 +16,7 @@ function CreateStudent() {
 
     const dispatch = useDispatch();
     const { studentList } = useSelector((state) => state.CreateStuReducer);
+    const { isLoading } = useSelector((state) => state.CreateStuReducer);
 
     const handleChange = (e) => {
         const name = e.target.name;
@@ -31,7 +32,7 @@ function CreateStudent() {
         const lastId = studentList.length > 0 ? studentList[studentList.length - 1].id : 0;
 
         const data = { ...initial, id: lastId + 1 }
-        dispatch(CreateStuAction(data));
+        dispatch(CreateStuAsync(data));
         setInitial({
             fName: '',
             lName: '',
