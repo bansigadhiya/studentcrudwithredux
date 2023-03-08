@@ -4,12 +4,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import './ViewStudent.css';
 import { PencilSquare, Trash3Fill } from 'react-bootstrap-icons';
 import { DeleteStuAction, GetInfoAction } from '../../Services/Actions/CreateStu.action';
-import Loader from '../Table Loader/Loader';
+import Skeleton from 'react-loading-skeleton';
+import "react-loading-skeleton/dist/skeleton.css";
 
 function ViewStudent({ handleEdit }) {
 
     const { studentList } = useSelector((state) => state.CreateStuReducer);
     const { isLoading } = useSelector((state) => state.CreateStuReducer);
+
+    console.log(isLoading, "isloading");
 
     const dispatch = useDispatch();
 
@@ -18,11 +21,9 @@ function ViewStudent({ handleEdit }) {
         dispatch(GetInfoAction(id))
     }
 
-    return (
-        <Container>
-            {
-                <>
-                 
+    const studata = (studentList) => {
+        return (
+            <>
                 <Table className='my-5' bordered hover>
                     <thead>
                         <tr>
@@ -36,17 +37,10 @@ function ViewStudent({ handleEdit }) {
                         </tr>
                     </thead>
                     <tbody>
-
                         {
                             studentList.map((stu, index) => {
                                 return (
                                     <>
-                                    {
-                                        isLoading ? 
-                                        <div className='w-100'><Loader className="my-5"/> </div>
-                                        
-                                        : <>
-
                                         <tr key={index}>
                                             <td rowSpan="2">
                                                 {stu.id}
@@ -87,18 +81,72 @@ function ViewStudent({ handleEdit }) {
                                             </td>
                                         </tr>
                                     </>
-                                    }
-                                    
+                                )
+                            })
+                        }
+                    </tbody>
+                </Table>
+            </>
+        )
+    }
+
+    const skeleton = (studentList) => {
+
+        return (
+            <>
+                <Table className='my-5' bordered hover>
+                    <thead>
+                        <tr>
+                            <th><Skeleton /></th>
+                            <th><Skeleton /></th>
+                            <th><Skeleton /></th>
+                            <th><Skeleton /></th>
+                            <th><Skeleton /></th>
+                            <th><Skeleton /></th>
+                            <th><Skeleton /></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            studentList.map((stu,index) => {
+                                return (
+                                    <>
+                                        <tr key={index} className='w-100'>
+                                            <td rowSpan="2"><Skeleton /></td>
+                                            <td rowSpan="2"><Skeleton /></td>
+                                            <td><Skeleton /></td>
+                                            <td rowSpan="2"><Skeleton /></td>
+                                            <td rowSpan="2"><Skeleton /></td>
+                                            <td rowSpan="2"><Skeleton /></td>
+                                            <td rowSpan="2">
+                                                <div className='d-flex action'>
+                                                    <div className='w-50 me-2'>
+                                                        <Skeleton />
+                                                    </div>
+                                                    <div className='w-50'>
+                                                        <Skeleton />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr key={index}>
+                                            <td><Skeleton /></td>
+                                        </tr>
                                     </>
                                 )
                             })
                         }
                     </tbody>
                 </Table>
-                </>
+            </>
+        )
+    }
+
+    return (
+        <Container>
+            {
+                isLoading ? skeleton(studentList) : studata(studentList)
             }
-
-
         </Container>
     )
 }
